@@ -1,0 +1,30 @@
+.header {
+  height: 98px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    color: var(--white);
+    font-size: 2rem;
+    font-weight: 700;
+  }
+}
+
+.container {
+  background-color: var(--white);
+  max-width: 640px;
+  margin: 0 auto 40px;
+  padding: 40px;
+  border-radius: 16px;
+}
+
+.contentWrapper {
+  margin-top: 24px;
+  min-height: 248px;
+  padding: 32px;
+  border-radius: 8px;
+  background-color: var(--gray);
+  display: flex;
+  flex-direction: column;
+}

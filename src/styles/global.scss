@@ -1,0 +1,37 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --red: #e10600;
+  --white: #ffffff;
+  --gray: #f3f3f3;
+  --text: #353546;
+  --text-fade: #696977;
+  --highlight: #dedee3;
+}
+
+body {
+  background: linear-gradient(180deg, #292935 0.01%, #191a22 100%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+body,
+input,
+textarea,
+select,
+button {
+  font: 600 1rem 'Titillium Web', sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
