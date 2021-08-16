@@ -1,30 +1,11 @@
 import {rest} from 'msw'
-
-interface Circuit {
-  name: string
-  location: string
-  officialName: string
-  image: string
-  firstGP: string
-  lapLength: number
-  laps: number
-  totalLength: number
-  lapRecord: {
-    time: number
-    driver: string
-    year: string
-  }
-}
-
-interface GetCircuitResponseSuccess {
-  circuit: Circuit
-}
+import {Circuit} from '../circuits'
 
 interface GetCircuitResponseError {
   message: string
 }
 
-type GetCircuitResponse = GetCircuitResponseSuccess | GetCircuitResponseError
+type GetCircuitResponse = Circuit | GetCircuitResponseError
 
 interface GetCircuitParams {
   name: string
@@ -47,7 +28,7 @@ export const handlers = [
         circuit => circuit.name.toLowerCase() === req.params.name,
       )
       if (circuit) {
-        return res(ctx.status(200), ctx.json({circuit}))
+        return res(ctx.status(200), ctx.json({...circuit}))
       } else {
         const randomCircuit =
           allCircuits[Math.floor(allCircuits.length * Math.random())]
@@ -67,7 +48,7 @@ const allCircuits: Circuit[] = [
     name: 'Interlagos',
     location: 'Brasil',
     officialName: 'Autódromo Internacional Nelson Piquet',
-    image: '/img/circuits/interlagos.png',
+    image: '/img/interlagos.png',
     firstGP: '1973',
     lapLength: 4309,
     laps: 71,
@@ -82,7 +63,7 @@ const allCircuits: Circuit[] = [
     name: 'Monza',
     location: 'Italy',
     officialName: 'Autodromo Nazionale Monza',
-    image: '/img/circuits/monza.png',
+    image: '/img/monza.png',
     firstGP: '1950',
     lapLength: 5793,
     laps: 53,
@@ -97,7 +78,7 @@ const allCircuits: Circuit[] = [
     name: 'Silverstone',
     location: 'Great Britain',
     officialName: 'Silverstone Circuit',
-    image: '/img/circuits/silverstone.png',
+    image: '/img/silverstone.png',
     firstGP: '1950',
     lapLength: 5891,
     laps: 52,
@@ -112,7 +93,7 @@ const allCircuits: Circuit[] = [
     name: 'Spa',
     location: 'Belgium',
     officialName: 'Circuit de Spa-Francorchamps',
-    image: '/img/circuits/spa.png',
+    image: '/img/spa.png',
     firstGP: '1950',
     lapLength: 7004,
     laps: 44,
