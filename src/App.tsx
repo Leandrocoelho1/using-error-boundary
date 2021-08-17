@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {ErrorBoundary} from 'react-error-boundary'
+import {ErrorBoundary} from './ErrorBoundary'
 import {
   Circuit,
   CircuitErrorFallback,
@@ -61,10 +61,6 @@ function App() {
     setCircuitName(circuitName)
   }
 
-  function handleReset() {
-    setCircuitName('')
-  }
-
   return (
     <div>
       <div className={styles.header}>
@@ -77,8 +73,7 @@ function App() {
         />
         <div className={styles.contentWrapper}>
           <ErrorBoundary
-            onReset={handleReset}
-            resetKeys={[circuitName]}
+            key={circuitName}
             FallbackComponent={CircuitErrorFallback}
           >
             <CircuitContent circuitName={circuitName} />

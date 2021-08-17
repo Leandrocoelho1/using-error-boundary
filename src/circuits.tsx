@@ -1,6 +1,5 @@
 import axios from 'axios'
 import {ChangeEvent, FormEvent, useEffect, useState} from 'react'
-import {FallbackProps} from 'react-error-boundary'
 import styles from './styles/circuits.module.scss'
 
 export interface Circuit {
@@ -171,20 +170,11 @@ export function CircuitDetails({circuit}: {circuit: Circuit}) {
   )
 }
 
-export function CircuitErrorFallback({
-  error,
-  resetErrorBoundary,
-}: FallbackProps) {
+export function CircuitErrorFallback({error}: {error: Error}) {
   return (
     <div role="alert" className={styles.errorContainer}>
       <h3>Something went wrong...</h3>
       <p>{error.message}</p>
-      <button
-        onClick={resetErrorBoundary}
-        className={`${styles.primaryButton} ${styles.redButton}`}
-      >
-        Try again
-      </button>
     </div>
   )
 }
