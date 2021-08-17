@@ -12,7 +12,7 @@ export interface Circuit {
   laps: number
   totalLength: number
   lapRecord: {
-    time: number
+    time: string
     driver: string
     year: string
   }
@@ -112,7 +112,9 @@ export function CircuitDetails({circuit}: {circuit: Circuit}) {
           <div className={styles.card}>
             <p>Circuit length</p>
             <div>
-              <strong>7.004</strong>
+              <strong>
+                {new Intl.NumberFormat().format(circuit.lapLength)}
+              </strong>
               <small>KM</small>
             </div>
           </div>
@@ -127,7 +129,9 @@ export function CircuitDetails({circuit}: {circuit: Circuit}) {
           <div className={styles.card}>
             <p>Race distance</p>
             <div>
-              <strong>308.052</strong>
+              <strong>
+                {new Intl.NumberFormat().format(circuit.totalLength)}
+              </strong>
               <small>KM</small>
             </div>
           </div>
@@ -136,7 +140,7 @@ export function CircuitDetails({circuit}: {circuit: Circuit}) {
           <div className={styles.card}>
             <p>Lap record</p>
             <div>
-              <strong>1:46.286</strong>
+              <strong>{circuit.lapRecord.time}</strong>
               <small>{`${circuit.lapRecord.driver} (${circuit.lapRecord.year})`}</small>
             </div>
           </div>
@@ -155,9 +159,6 @@ export function CircuitErrorFallback({error}: {error: AxiosError}) {
       ) : (
         <p>{error.message}</p>
       )}
-      <button className={`${styles.primaryButton} ${styles.redButton}`}>
-        Try again
-      </button>
     </div>
   )
 }

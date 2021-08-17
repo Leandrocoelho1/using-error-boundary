@@ -17,6 +17,7 @@ export const handlers = [
     (req, res, ctx) => {
       if (Math.random() > 0.9) {
         return res(
+          ctx.delay(1500),
           ctx.status(500),
           ctx.json({
             message: 'Service is currently unavailable. Please try again.',
@@ -28,11 +29,12 @@ export const handlers = [
         circuit => circuit.name.toLowerCase() === req.params.name,
       )
       if (circuit) {
-        return res(ctx.status(200), ctx.json({...circuit}))
+        return res(ctx.delay(1500), ctx.status(200), ctx.json({...circuit}))
       } else {
         const randomCircuit =
           allCircuits[Math.floor(allCircuits.length * Math.random())]
         return res(
+          ctx.delay(1500),
           ctx.status(404),
           ctx.json({
             message: `Cannot find circuit: "${req.params.name}". Try "${randomCircuit.name}"`,
@@ -54,7 +56,7 @@ const allCircuits: Circuit[] = [
     laps: 71,
     totalLength: 305909,
     lapRecord: {
-      time: 66324,
+      time: '1:10.540',
       driver: 'Valteri Bottas',
       year: '2018',
     },
@@ -69,7 +71,7 @@ const allCircuits: Circuit[] = [
     laps: 53,
     totalLength: 306720,
     lapRecord: {
-      time: 72627.6,
+      time: '1:21.046',
       driver: 'Rubens Barrichello',
       year: '2004',
     },
@@ -84,7 +86,7 @@ const allCircuits: Circuit[] = [
     laps: 52,
     totalLength: 306198,
     lapRecord: {
-      time: 76258.2,
+      time: '1:27.097',
       driver: 'Max Verstappen',
       year: '2020',
     },
@@ -99,7 +101,7 @@ const allCircuits: Circuit[] = [
     laps: 44,
     totalLength: 308052,
     lapRecord: {
-      time: 87771.6,
+      time: '1:46.286',
       driver: 'Valteri Bottas',
       year: '2018',
     },
