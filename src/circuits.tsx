@@ -1,5 +1,6 @@
-import axios, {AxiosError} from 'axios'
-import {ChangeEvent, FormEvent, useState} from 'react'
+import axios from 'axios'
+import {ChangeEvent, FormEvent, useEffect, useState} from 'react'
+import {FallbackProps} from 'react-error-boundary'
 import styles from './styles/circuits.module.scss'
 
 export interface Circuit {
@@ -18,14 +19,34 @@ export interface Circuit {
   }
 }
 
+const api = axios.create({baseURL: 'https://api.backend.com'})
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response.data.message) {
+      error.message = error.response.data.message
+    }
+    return Promise.reject(error)
+  },
+)
+
 export function fetchCircuit(name: string) {
-  return axios
-    .get<Circuit>(`https://api.backend.com/circuits/${name.toLowerCase()}`)
+  return api
+    .get<Circuit>(`/circuits/${name.toLowerCase()}`)
     .then(res => res.data)
 }
 
-export function CircuitForm({onSubmit}: {onSubmit: (name: string) => void}) {
-  const [circuitName, setCircuitName] = useState('')
+interface CircuitFormProps {
+  onSubmit: (name: string) => void
+  externalCircuitName: string
+}
+
+export function CircuitForm({onSubmit, externalCircuitName}: CircuitFormProps) {
+  const [circuitName, setCircuitName] = useState(externalCircuitName)
+
+  useEffect(() => {
+    setCircuitName(externalCircuitName)
+  }, [externalCircuitName])
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     setCircuitName(e.target.value)
@@ -150,15 +171,20 @@ export function CircuitDetails({circuit}: {circuit: Circuit}) {
   )
 }
 
-export function CircuitErrorFallback({error}: {error: AxiosError}) {
+export function CircuitErrorFallback({
+  error,
+  resetErrorBoundary,
+}: FallbackProps) {
   return (
     <div role="alert" className={styles.errorContainer}>
       <h3>Something went wrong...</h3>
-      {error.response ? (
-        <p>{error.response.data.message}</p>
-      ) : (
-        <p>{error.message}</p>
-      )}
+      <p>{error.message}</p>
+      <button
+        onClick={resetErrorBoundary}
+        className={`${styles.primaryButton} ${styles.redButton}`}
+      >
+        Try again
+      </button>
     </div>
   )
 }

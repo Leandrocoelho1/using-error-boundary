@@ -1,3 +1,5 @@
+import {useEffect, useState} from 'react'
+import {ErrorBoundary} from 'react-error-boundary'
 import {
   Circuit,
   CircuitErrorFallback,
@@ -7,17 +9,15 @@ import {
   CircuitLoading,
   CircuitDetails,
 } from './circuits'
-import {useEffect, useState} from 'react'
-import styles from './styles/home.module.scss'
+
 import './styles/global.scss'
-import {ErrorBoundary} from './ErrorBoundary'
-import {AxiosError} from 'axios'
+import styles from './styles/home.module.scss'
 
 function CircuitContent({circuitName}: {circuitName: string}) {
   const [state, setState] = useState<{
     status: 'idle' | 'pending' | 'resolved' | 'rejected'
     circuit: Circuit
-    error: AxiosError | null
+    error: Error | null
   }>({
     status: 'idle',
     circuit: {} as Circuit,
@@ -61,16 +61,24 @@ function App() {
     setCircuitName(circuitName)
   }
 
+  function handleReset() {
+    setCircuitName('')
+  }
+
   return (
     <div>
       <div className={styles.header}>
         <h1>Circuits</h1>
       </div>
       <div className={styles.container}>
-        <CircuitForm onSubmit={handleSubmit} />
+        <CircuitForm
+          onSubmit={handleSubmit}
+          externalCircuitName={circuitName}
+        />
         <div className={styles.contentWrapper}>
           <ErrorBoundary
-            key={circuitName}
+            onReset={handleReset}
+            resetKeys={[circuitName]}
             FallbackComponent={CircuitErrorFallback}
           >
             <CircuitContent circuitName={circuitName} />

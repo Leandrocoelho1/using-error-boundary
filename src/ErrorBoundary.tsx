@@ -1,17 +1,16 @@
-import {AxiosError} from 'axios'
 import React, {ComponentType} from 'react'
 
 interface ErrorBoundaryProps {
-  FallbackComponent: ComponentType<{error: AxiosError}>
+  FallbackComponent: ComponentType<{error: Error}>
 }
 
 interface State {
-  error: AxiosError | null
+  error: Error | null
 }
 
 export class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
   state: State = {error: null}
-  static getDerivedStateFromError(error: AxiosError | null) {
+  static getDerivedStateFromError(error: Error | null) {
     return {error}
   }
   render() {
