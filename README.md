@@ -1,6 +1,8 @@
 ## Introduction
 
-This is an example app on how to work with React error boundary components.
+This is an example code for this post about [how to work with React error boundary components](https://github.com/Leandrocoelho1/using-error-boundary/blob/main/public/img/animation.gif).
+
+![App Screenshot](https://github.com/Leandrocoelho1/using-error-boundary/blob/main/public/img/animation.gif)
 
 ### How to run the application
 
